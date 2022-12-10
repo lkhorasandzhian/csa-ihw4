@@ -6,8 +6,10 @@ static long long honey_pot = 0;
 static long long total_capacity;
 static int count_of_threads = 0;
 pthread_mutex_t mutex;
+static int bee_counter = 0;
 
 void *fillHoneyPot(void *shared_arg) {
+    int bee_number = ++bee_counter;
     auto local_capacity = ((long long) shared_arg) / count_of_threads;
     long long local_pot = 0;
 
@@ -21,6 +23,10 @@ void *fillHoneyPot(void *shared_arg) {
         for (long long i = 0; i < total_capacity - local_capacity * count_of_threads; ++i) {
             ++honey_pot;
         }
+    }
+    if (honey_pot == total_capacity) {
+        std::cout << "bee #"  << bee_number << " called teddy bear!" << std::endl;
+        std::cout << "bear started eating honey..." << std::endl;
     }
     pthread_mutex_unlock(&mutex);
 
@@ -54,8 +60,12 @@ int main() {
     }
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();    // Finish.
 
+    std::cout << std::endl;
+
     std::cout << "teddy bear has eaten all honey... :P" << std::endl;
     std::cout << "bear finished eating honey..." << std::endl;
+
+    std::cout << std::endl;
 
     std::cout << "load time: "
               << std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() << "[sec]"
