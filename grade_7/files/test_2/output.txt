@@ -1,0 +1,8 @@
+bee #4 called teddy bear!
+bear started eating honey...
+
+teddy bear has eaten all honey... :P
+bear finished eating honey...
+
+load time: 0[sec]
+total honey: 100000000

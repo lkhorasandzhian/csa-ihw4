@@ -134,3 +134,87 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 ```
+
+## Выполненные критерии на 7 баллов
+
+### Файловый ввод/вывод
+Добавлена возможность в качестве входных данных передавать файл, в котором с новой строки записаны 2 аргумента. Для корректной работы
+входной файл должен называться "input.txt" и находиться в одной дирректории с .exe-файлом.
+```cpp
+int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        std::cout << "press 0 for console input, press other number for file input: ";
+        std::cin >> is_file_input;
+        if (is_file_input) {
+            FILE *file_in = fopen("input.txt", "r");
+
+            fscanf(file_in, "%d", &count_of_threads);
+            if (count_of_threads < 1 || count_of_threads > 10) {
+                std::cout << "incorrect count of bees..." << std::endl;
+                fclose(file_in);
+                return 0;
+            }
+
+            fscanf(file_in, "%lld", &total_capacity);
+            if (total_capacity < 10 || total_capacity > 100000000000) {
+                std::cout << "incorrect size of honey pot..." << std::endl;
+                fclose(file_in);
+                return 0;
+            }
+
+            fclose(file_in);
+        } else {
+```
+Вывод осуществляется в файл "output.txt", который также должен располагаться рядом с "input.txt" и .exe-файлом.  
+  
+Фрагмент 1:
+```cpp
+    if (honey_pot == total_capacity) {
+        std::cout << "bee #"  << bee_number << " called teddy bear!" << std::endl;
+        std::cout << "bear started eating honey..." << std::endl;
+
+        std::string outline = "bee #" + std::to_string(bee_number) + " called teddy bear!\n";
+        fprintf(file_out, "%s", outline.c_str());
+        outline = "bear started eating honey...\n\n";
+        fprintf(file_out, "%s", outline.c_str());
+    }
+```
+Фрагмент 2:
+```cpp
+    fprintf(file_out, "%s", "teddy bear has eaten all honey... :P\n");
+    fprintf(file_out, "%s", "bear finished eating honey...\n\n");
+
+    std::string outline = "load time: " +
+                          std::to_string(std::chrono::duration_cast<std::chrono::seconds>(end - begin).count()) +
+                          "[sec]\n";
+    fprintf(file_out, "%s", outline.c_str());
+    outline = "total honey: " + std::to_string(honey_pot) + "\n";
+    fprintf(file_out, "%s", outline.c_str());
+
+    fclose(file_out);
+
+    return 0;
+}
+```
+
+### Полученные в результате тестов входные/выходные файлы
+Все файлы находятся в отдельных дирректориях, которые, в свою очередь, находятся в [общей дирректории](https://github.com/lkhorasandzhian/csa-ihw4/tree/main/grade_7/files).
+
+### Сохранение данных
+В результате работы программы данные выводятся в консоли и сохраняются в файле output.txt (его необходимо предварительно создать рядом с .exe-файлом),
+которая при каждом последующем запуске перезаписывается новыми данными.
+
+### Расширение ввода данных
+При пустой командной строке в консоли добавлен запрос на ожидание ввода либо через файл, либо через консоль. Для ввода через консоль нужно ввести 0,
+а для обработки файлового ввода нужно написать любое другое число (рекомендую 1):
+```cpp
+int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        std::cout << "press 0 for console input, press other number for file input: ";
+        std::cin >> is_file_input;
+        if (is_file_input) {
+```
+
+# Оффтоп
+_В финальном домашнем задании по курсу АВС хочу выразить благодарность Сергею Александровичу за очень интересные, насыщенные семинары и за
+доступные, понятные объяснения сложных тем! :)_
