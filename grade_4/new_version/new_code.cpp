@@ -17,8 +17,7 @@ void *fillHoneyPot(void *shared_arg) {
 
     pthread_mutex_lock(&mutex);
     honey_pot += local_pot;
-    if (honey_pot == total_capacity) {
-    } else if (honey_pot == local_capacity * count_of_threads) {
+    if (honey_pot != total_capacity && honey_pot == local_capacity * count_of_threads) {
         for (long long i = 0; i < total_capacity - local_capacity * count_of_threads; ++i) {
             ++honey_pot;
         }
